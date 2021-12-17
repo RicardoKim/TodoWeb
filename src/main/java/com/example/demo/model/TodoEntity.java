@@ -1,5 +1,12 @@
 package com.example.demo.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +16,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // 밑에서 사용한 클래스의 경우 매개변수가 존재하지 않는다. 즉 코드의 간결성에 좋은 이점을 가진다.
 @AllArgsConstructor // 클래스 내부의 모든 변수가 매개변수로 받는 생성자임을 의미한다.
 @Data // Getter와 Setter를 클래스 내부의 메소드로 정의하지 않아도 정의가 되게 해주는 어노테이션이다.
+@Entity // 현재 클래스가 Entity를 나타내는 클래스 임을 알져누는 어노테이션이다.
+@Table(name = "Todo") 
+/*
+ * 테이블 지정해주는 어노테이션으로 이 엔티티는 데이터베이스의 Todo 테이블에 매핑된다는 뜻이다. 
+ * 만약 추가하지 않으면 @Entity의 이름을 테이블 이름으로 간주한다.
+ */
+
 public class TodoEntity {
+	//@Id는 어노테이션 밑에 있는 변수가 엔티티의 고유값임을 명시해주는 역할이다.
+	@Id
+	//ID를 자동으로 생성해주는 역할을 한다. 여기서 주목해야하는 점은 자동으로 생성을 어떤 식으로 진행하냐이다. 우리는 system-uuid라는
+	//generator를 참조해서사용한다는 뜻이다.
+	@GeneratedValue(generator = "system-uuid")
+	// 앞써 정의한 generator에 대해서 구체화 해주는 부분으로 uuid는 고유성이 보장되는 id를 만들어주는 표준 규약이다.
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id; // 이 오브젝트의 아이디 , 즉 데이터베이스의 고유 값이라고 생각이 든다.
 	private String userId; // 이 오브젝트를 생성한 사용자의 아이디
 	private String title; // Todo 타이틀
