@@ -21,6 +21,20 @@ public class TodoDTO {
 		this.title = entity.getTitle();
 		this.done = entity.isDone();
 	}
+	/*
+	 * Builder 패턴이라고 이야기 하는 패턴으로 우리가 AllargsContructor 어노테이션을 사용함으로써 생기는 문제상황을
+	 * 방지하고자 하는 생성자 패턴이라고 이해를 했다.
+	 * 왜나면 우리가 필드에서 선언한 모든 변수가 TodoEntity에 필요하지 않을 수 있다.
+	 * 따라서 필요한 변수만을 사용하는 TodoDTO라는 메소드를 정의하고
+	 * 해당 메소드를 바탕으로 TodoEntity를 정의한다. 이를 통해 원하는 변수만을 가지는 TodoDTO를 만들 수 있는 것이다.
+	 */
+	public static TodoEntity toEntity(final TodoDTO dto) {
+		return TodoEntity.builder()
+				.id(dto.getId())
+				.title(dto.getTitle())
+				.done(dto.isDone())
+				.build();
+	}
 }
 
 

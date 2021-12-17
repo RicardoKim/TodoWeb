@@ -19,4 +19,5 @@ public interface TodoRepository  extends JpaRepository<TodoEntity, String>{
 	 * 근데 어떻게 인터페이스를 가져와서 구현도 안 하고 쓸 수 있을까?
 	 * 요건 질문해야지.....
 	 */
+
 }
