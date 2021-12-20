@@ -14,25 +14,15 @@ class App extends React.Component {
   }
   
   add = (item) => {
-    const requestOptions = {
-      method : 'POST',
-      headers : {'Content-Type' : 'application/json'},
-      body : JSON.stringify(item)
-    };
-    fetch('http://localhost:5000/todo', requestOptions)
-    .then(response => response.json())
-    .then(response => this.setState({items : response.data}));
-  }
+    call("/todo", "POST", item).then((response) =>
+    this.setState({items : response.data})
+    );
+  };
 
   delete = (item) => {
-    const requestOptions ={
-      method: 'DELETE',
-      headers : {'Content-Type' : 'application/json'},
-      body : JSON.stringify(item)
-    };
-    fetch('http://localhost:5000/todo', requestOptions)
-    .then(response => response.json())
-    .then(response => this.setState({items : response.data}));
+    call("/todo", "DELETE", item).then((response)=>
+    this.setState({items : response.data})
+    );
   }
 
   componentDidMount() {
@@ -40,6 +30,11 @@ class App extends React.Component {
     this.setState({items: response.data}))
   }
   
+  update = (item) => {
+    call("/todo", "PUT", item).then((response) => 
+    this.setState({items : response.data}));
+  }
+
   render(){
     console.log(this.state.items);
     var todoItems = this.state.items.length > 0 && (
