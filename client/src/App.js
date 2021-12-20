@@ -3,37 +3,46 @@ import Todo from './components/Todo';
 import {Paper, List, Container} from "@material-ui/core";
 import AddTodo from './components/AddTodo';
 import './App.css';
+import { call } from './service/ApiService';
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      items : [
-   
-      ],
+      items : [],
     };
   }
   
   add = (item) => {
-    const thisItems = this.state.items;
-    item.id = "ID-" + thisItems.length;
-    item.done = false;
-    thisItems.push(item);
-    this.setState({items : thisItems});
-    console.log("Items : ", this.state.items);
+    const requestOptions = {
+      method : 'POST',
+      headers : {'Content-Type' : 'application/json'},
+      body : JSON.stringify(item)
+    };
+    fetch('http://localhost:5000/todo', requestOptions)
+    .then(response => response.json())
+    .then(response => this.setState({items : response.data}));
   }
 
   delete = (item) => {
-    const thisItems = this.state.items;
-    console.log("Before Update Items : ", this.state.items);
-    const newItems = thisItems.filter(e => e.id !== item.id);
-    this.setState({items : newItems}, () =>{
-      console.log("Update Items : ", this.state.items)
-    });
+    const requestOptions ={
+      method: 'DELETE',
+      headers : {'Content-Type' : 'application/json'},
+      body : JSON.stringify(item)
+    };
+    fetch('http://localhost:5000/todo', requestOptions)
+    .then(response => response.json())
+    .then(response => this.setState({items : response.data}));
   }
 
+  componentDidMount() {
+    call("/todo", "GET", null).then((response) =>
+    this.setState({items: response.data}))
+  }
+  
   render(){
-    var todoItems = this.state.items.length >0 && (
+    console.log(this.state.items);
+    var todoItems = this.state.items.length > 0 && (
       <Paper style = {{margin : 16}}>
         <List>
           {this.state.items.map((item, idx) => (
