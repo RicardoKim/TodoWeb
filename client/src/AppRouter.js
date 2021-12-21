@@ -4,14 +4,13 @@ import App from "./App";
 import Login from "./components/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-  
 const AppRouter = () => {
    
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path = "/login" element = {<Login/>}/>
-                <Route exact path = "/" element = {<App/>}/>
+                <Route path = "/login" element = {<Login/>}/>
+                <Route path = "/" element = {<App/>}/>
             </Routes>
         </BrowserRouter>
     
