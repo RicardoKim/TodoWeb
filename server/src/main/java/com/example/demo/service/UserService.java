@@ -8,7 +8,7 @@ import com.example.demo.persistence.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+@Slf4j // 자바에서 자동적으로 로그를 만들어주는 라이브러리이다.
 @Service
 public class UserService {
 	@Autowired
