@@ -34,7 +34,7 @@ public class UserController {
 			UserEntity user = UserEntity.builder()
 					.email(userDTO.getEmail())
 					.username(userDTO.getUsername())
-					.password(userDTO.getPassword())
+					.password(passwordEncoder.encode(userDTO.getPassword()))
 					.build();
 			// Request -> DTO -> Entity -> DTO -> Response
 			// 근데 왜 굳이 response를 저렇게 주는거지..? post method면 그냥 200만 줘도 되는거 아니야?
@@ -55,8 +55,9 @@ public class UserController {
 	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
+		System.out.println(userDTO.toString());
 		UserEntity user = userService.getByCredentials(userDTO.getEmail(), userDTO.getPassword(), passwordEncoder);
-		
+		System.out.println(user);
 		if(user != null) {
 			final String token = tokenProvider.create(user);
 			final UserDTO responseUserDTO = UserDTO.builder().email(user.getEmail()).id(user.getId()).token(token).build();
