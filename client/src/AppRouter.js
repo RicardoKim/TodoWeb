@@ -3,6 +3,7 @@ import "./index.css";
 import App from "./App";
 import Login from "./components/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SignUp from './components/SignUp';
 
 const AppRouter = () => {
    
@@ -11,6 +12,7 @@ const AppRouter = () => {
             <Routes>
                 <Route path = "/login" element = {<Login/>}/>
                 <Route path = "/" element = {<App/>}/>
+                <Route path = "/signup" element = {<SignUp/>}/>
             </Routes>
         </BrowserRouter>
     
