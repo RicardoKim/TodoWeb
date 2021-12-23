@@ -11,7 +11,7 @@ import com.example.demo.persistence.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j // ï¿½Ú¹Ù¿ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½ï¿½Ì´ï¿½.
+@Slf4j // ÀÚ¹Ù¿¡¼­ ÀÚµ¿ÀûÀ¸·Î ·Î±×¸¦ ¸¸µé¾îÁÖ´Â ¶óÀÌºê·¯¸®ÀÌ´Ù.
 @Service
 public class UserService {
 	@Autowired
@@ -45,26 +45,26 @@ public class UserService {
 		
 	}
 	
-	// userIdï¿½ï¿½ password ï¿½ï¿½ï¿½ï¿½
+	// userId¿Í password ´ëÁ¶
 	public UserEntity checkPassword(final String userId, final String password, final PasswordEncoder encoder) {
 		final Optional<UserEntity> original = userRepository.findById(userId);
-		if(original.isPresent()) { //userIdï¿½ï¿½ userEntityï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½
+		if(original.isPresent()) { //userId·Î userEntity¸¦ Ã£À¸¸é
 			final UserEntity originalUser = original.get();
-			if(originalUser != null && encoder.matches(password, originalUser.getPassword())) { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if(originalUser != null && encoder.matches(password, originalUser.getPassword())) { // ¹ÞÀº ºñ¹Ð¹øÈ£¿Í ´ëÁ¶
 				return originalUser;
 			}
 		}
-		// userIdï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ passwordï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ null ï¿½ï¿½È¯
+		// userId°¡ ¾ø°Å³ª password°¡ ¸ÂÁö ¾ÊÀ¸¸é null ¹ÝÈ¯
 		return null;
 	}
 	
-	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
+	// °èÁ¤ »èÁ¦ ÇÔ¼ö
 	public void delete(final UserEntity userEntity) {
 		
 		if(userEntity.getId() != null) {
-			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ userï¿½ï¿½ Todoï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
+			// °èÁ¤ »èÁ¦ Àü userÀÇ Todo¸¦ ¸ðµÎ »èÁ¦ÇØ¾ß ÇÔ
 			todoService.deleteAll(userEntity.getId());
-			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// °èÁ¤ »èÁ¦
 			userRepository.delete(userEntity);
 		}
 		
