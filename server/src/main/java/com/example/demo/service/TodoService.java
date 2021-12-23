@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -96,6 +98,13 @@ public class TodoService {
 			throw new RuntimeException("Unknown user.");
 			
 		}
+	}
+	
+	// userId를 받아서 userId에 해당하는 Todo를 모두 삭제하는 함수
+	// @Transactional 필요한지?
+	public void deleteAll(String userId) {
+		validate(userId);
+		repository.deleteAllByUserId(userId);
 	}
 	
 }

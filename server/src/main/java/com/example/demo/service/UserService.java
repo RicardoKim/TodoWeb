@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,11 +11,15 @@ import com.example.demo.persistence.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j // ÀÚ¹Ù¿¡¼­ ÀÚµ¿ÀûÀ¸·Î ·Î±×¸¦ ¸¸µé¾îÁÖ´Â ¶óÀÌºê·¯¸®ÀÌ´Ù.
+@Slf4j // ï¿½Ú¹Ù¿ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½ï¿½Ì´ï¿½.
 @Service
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private TodoService todoService;
+	
+	
 	public UserEntity create(final UserEntity userEntity) {
 		if(userEntity == null || userEntity.getEmail() == null) {
 			throw new RuntimeException("Invalid arguments");
@@ -39,5 +45,28 @@ public class UserService {
 		
 	}
 	
+	// userIdï¿½ï¿½ password ï¿½ï¿½ï¿½ï¿½
+	public UserEntity checkPassword(final String userId, final String password, final PasswordEncoder encoder) {
+		final Optional<UserEntity> original = userRepository.findById(userId);
+		if(original.isPresent()) { //userIdï¿½ï¿½ userEntityï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½
+			final UserEntity originalUser = original.get();
+			if(originalUser != null && encoder.matches(password, originalUser.getPassword())) { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				return originalUser;
+			}
+		}
+		// userIdï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ passwordï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ null ï¿½ï¿½È¯
+		return null;
+	}
 	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
+	public void delete(final UserEntity userEntity) {
+		
+		if(userEntity.getId() != null) {
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ userï¿½ï¿½ Todoï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
+			todoService.deleteAll(userEntity.getId());
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			userRepository.delete(userEntity);
+		}
+		
+	}
 }

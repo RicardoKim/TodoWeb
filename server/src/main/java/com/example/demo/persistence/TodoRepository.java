@@ -20,4 +20,7 @@ public interface TodoRepository  extends JpaRepository<TodoEntity, String>{
 	 * 요건 질문해야지.....
 	 */
 	
+	// userId에 해당하는 모든 column을 삭제
+	void deleteAllByUserId(String userId);
+	
 }
