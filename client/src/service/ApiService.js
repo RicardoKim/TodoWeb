@@ -36,8 +36,8 @@ export function call(api, method, request){
         if(error.status === 403){
             window.location.href = "/login"; //redirect 
         }
-        if(error.status === 404){
-            return false;
+        if(error.status === true){
+            window.location.href = "/login";
         }
         return Promise.reject(error);
     });
@@ -72,5 +72,7 @@ export function deletePage(){
 }
 
 export function deleteAccount(password){
-    return call("/auth/delete", "DELETE", password)
+    var requestBody = new Object();
+    requestBody.password = `${password}`;
+    return call("/auth/delete", "DELETE", requestBody)
 }

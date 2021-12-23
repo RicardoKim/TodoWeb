@@ -13,7 +13,13 @@ export default function DeletePopup() {
     }
     const deleteButton = (e) => {
         deleteAccount(password).then((result) =>{
-            setPassword("잘못 입력하셨습니다");
+            if(result === true){
+                window.location.href = "/login";
+            }
+            else{
+                setPassword("잘못 입력하셨습니다");
+            }
+            
         }) 
     };
     const cancel = () =>{

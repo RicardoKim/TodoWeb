@@ -34,6 +34,7 @@ public class UserController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO){
 		try {
+			System.out.println(passwordEncoder.encode(userDTO.getPassword()));
 			//이게 request오면 dto 클래스에 포장되서 오는거야?
 			UserEntity user = UserEntity.builder()
 					.email(userDTO.getEmail())
@@ -76,7 +77,7 @@ public class UserController {
 	
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> deleteAccount(@AuthenticationPrincipal String userId, @RequestBody UserDTO userDTO){
-		// 비밀번호가 맞는지 check
+		System.out.println(userDTO);
 		UserEntity user = userService.checkPassword(userId, userDTO.getPassword(), passwordEncoder);
 		
 		if(user != null) {

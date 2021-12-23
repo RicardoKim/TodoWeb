@@ -30,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
 		try {
 			// 리퀘스트에서 토큰 가져오기
+			System.out.println(request);
 			String token = parseBearerToken(request);
 			log.info("Filter is running...");
 			// 토큰 검사하기, JWT이므로 여기서 처리 가능
