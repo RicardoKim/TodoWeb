@@ -30,8 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
 		try {
 			// 리퀘스트에서 토큰 가져오기
-			System.out.println(request);
+			System.out.println("====");
+			System.out.println(request.getRequestURL());
+			System.out.println(request.getMethod());
+			System.out.println("====");
 			String token = parseBearerToken(request);
+			System.out.println(token);
 			log.info("Filter is running...");
 			// 토큰 검사하기, JWT이므로 여기서 처리 가능
 			if(token != null && !token.equalsIgnoreCase("null")) {

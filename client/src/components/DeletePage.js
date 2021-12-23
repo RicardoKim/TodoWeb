@@ -3,6 +3,7 @@ import {React, useState} from 'react';
 import "../css/DeletePage.css"
 import deleteImage from "../img/DeleteImage.png"
 import { deleteAccount } from '../service/ApiService';
+const ACCESS_TOKEN = "ACCESS_TOKEN";
 
 export default function DeletePopup() {
     const [password, setPassword] = useState([]);
@@ -14,6 +15,7 @@ export default function DeletePopup() {
     const deleteButton = (e) => {
         deleteAccount(password).then((result) =>{
             if(result === true){
+                sessionStorage.setItem(ACCESS_TOKEN, null);
                 window.location.href = "/login";
             }
             else{

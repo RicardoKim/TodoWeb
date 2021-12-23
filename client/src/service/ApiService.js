@@ -5,7 +5,7 @@ export function call(api, method, request){
     let headers = new Headers({
         "Content-Type" : "application/json",
     });
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
     if(accessToken && accessToken !== null){
         headers.append("Authorization", "Bearer " + accessToken);
     }
@@ -48,7 +48,7 @@ export function signin(userDTO) {
     return call("/auth/signin", "POST", userDTO)
     .then((response) => {
         console.log(response);
-        localStorage.setItem("ACCESS_TOKEN", response.token);
+        sessionStorage.setItem("ACCESS_TOKEN", response.token);
         
         window.location.href = "/";
 
@@ -59,7 +59,7 @@ export function signin(userDTO) {
 }
 
 export function signout(){
-    localStorage.setItem(ACCESS_TOKEN, null);
+    sessionStorage.setItem(ACCESS_TOKEN, null);
     window.location.href = "/login";
 }
 
@@ -73,6 +73,7 @@ export function deletePage(){
 
 export function deleteAccount(password){
     var requestBody = new Object();
+    sessionStorage.setItem(ACCESS_TOKEN, null);
     requestBody.password = `${password}`;
     return call("/auth/delete", "DELETE", requestBody)
 }
