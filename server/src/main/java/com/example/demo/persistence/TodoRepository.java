@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.TodoEntity;
 
@@ -21,6 +23,7 @@ public interface TodoRepository  extends JpaRepository<TodoEntity, String>{
 	 */
 	
 	// userId에 해당하는 모든 column을 삭제
+	@Transactional
 	void deleteAllByUserId(String userId);
 	
 }
