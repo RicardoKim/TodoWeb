@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private TodoService todoService;
+	
+	
 	public UserEntity create(final UserEntity userEntity) {
 		if(userEntity == null || userEntity.getEmail() == null) {
 			throw new RuntimeException("Invalid arguments");
@@ -35,6 +41,31 @@ public class UserService {
 			return originalUser;
 		}
 		return null;
+		
+	}
+	
+	// userId와 password 대조
+	public UserEntity checkPassword(final String userId, final String password, final PasswordEncoder encoder) {
+		final Optional<UserEntity> original = userRepository.findById(userId);
+		if(original.isPresent()) { //userId로 userEntity를 찾으면
+			final UserEntity originalUser = original.get();
+			if(originalUser != null && encoder.matches(password, originalUser.getPassword())) { // 받은 비밀번호와 대조
+				return originalUser;
+			}
+		}
+		// userId가 없거나 password가 맞지 않으면 null 반환
+		return null;
+	}
+	
+	// 계정 삭제 함수
+	public void delete(final UserEntity userEntity) {
+		
+		if(userEntity.getId() != null) {
+			// 계정 삭제 전 user의 Todo를 모두 삭제해야 함
+			todoService.deleteAll(userEntity.getId());
+			// 계정 삭제
+			userRepository.delete(userEntity);
+		}
 		
 	}
 }

@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,5 +70,21 @@ public class UserController {
 			
 			return ResponseEntity.badRequest().body(responseDTO);
 		}
+	}
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> deleteAccount(@AuthenticationPrincipal String userId, @RequestBody UserDTO userDTO){
+		// 비밀번호가 맞는지 check
+		UserEntity user = userService.checkPassword(userId, userDTO.getPassword(), passwordEncoder);
+		
+		if(user != null) {
+			// service의 계정 삭제 함수 호출
+			userService.delete(user);
+			return ResponseEntity.ok().body(true);
+		}else {
+			ResponseDTO responseDTO =  ResponseDTO.builder().error("Password incorrect").build();
+			return ResponseEntity.badRequest().body(responseDTO);
+		}
+
 	}
 }
