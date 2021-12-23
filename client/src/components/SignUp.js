@@ -33,16 +33,16 @@ export default class SignUp extends Component {
                     </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                    <TextField
-                        autoComplete="fname"
-                        name="username"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="username"
-                        label="유저 이름"
-                        autoFocus
-                    />
+                        <TextField
+                            autoComplete="fname"
+                            name="username"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="username"
+                            label="유저 이름"
+                            autoFocus
+                        />
                     </Grid>
                     <Grid item xs={12}>
                     <TextField

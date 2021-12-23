@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {signin} from "../service/ApiService"
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { Container, Link, } from "@material-ui/core";
-// import "./css/Login.css";
+import CustomTextField from './CustomTextField';
 
 class Login extends React.Component {
     constructor(props) {
@@ -18,10 +18,12 @@ class Login extends React.Component {
       const data = new FormData(event.target);
       const email = data.get("email");
       const password = data.get("password");
+      var succeed = {pass : true};
       // ApiService의 signin 메서드를 사용 해 로그인.
-      signin({ email: email, password: password });
+      signin({ email: email, password: password});
+      
     }
-  
+    
     render() {
       return (
         <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>

@@ -1,0 +1,25 @@
+@font-face {
+    font-family: "welcome";
+    src: url("../font/fontFile.ttf");
+}
+
+.Image{
+    margin : auto;
+    width: 20%;
+}
+
+.Notice{
+    font-family: "welcome";
+    margin : auto;
+    width: 30%;
+}
+
+.PasswordArea{
+    margin : auto;
+    width: 20%;
+}
+
+.ButtonArea{
+    margin : auto;
+    width: 20%;
+}

@@ -2,8 +2,9 @@ import React from 'react';
 import Todo from './components/Todo';
 import {Paper, List, Container, Grid, Button, AppBar, Toolbar, Typography} from "@material-ui/core";
 import AddTodo from './components/AddTodo';
-import './App.css';
-import { call, signout } from './service/ApiService';
+import { call, signout,  deletePage } from './service/ApiService';
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class App extends React.Component {
     );
   };
 
+
   render() {
     var todoItems = this.state.items.length > 0 && (
       <Paper style={{ margin: 16 }}>
@@ -75,7 +77,12 @@ class App extends React.Component {
         </Toolbar>
       </AppBar>
     );
-
+    
+    var deleteAccountButton = (
+      <Button color = "primary" onClick = {deletePage}>
+        탈퇴
+      </Button>
+    );
     /* 로딩중이 아닐 때 렌더링 할 부분 */
     var todoListPage = (
       <div>
@@ -83,7 +90,9 @@ class App extends React.Component {
         <Container maxWidth="md">
           <AddTodo add={this.add} />
           <div className="TodoList">{todoItems}</div>
+          <div className="bottomNavigator">{deleteAccountButton}</div>
         </Container>
+
       </div>
     );
 

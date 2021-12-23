@@ -4,6 +4,7 @@ import App from "./App";
 import Login from "./components/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from './components/SignUp';
+import DeletePage from './components/DeletePage';
 
 const AppRouter = () => {
    
@@ -13,6 +14,7 @@ const AppRouter = () => {
                 <Route path = "/login" element = {<Login/>}/>
                 <Route path = "/" element = {<App/>}/>
                 <Route path = "/signup" element = {<SignUp/>}/>
+                <Route path = "/deletePage" element = {<DeletePage/>}/>
             </Routes>
         </BrowserRouter>
     
