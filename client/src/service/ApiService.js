@@ -73,6 +73,7 @@ export function deletePage(){
 
 export function deleteAccount(password){
     var requestBody = new Object();
+    sessionStorage.setItem(ACCESS_TOKEN, null);
     requestBody.password = `${password}`;
     return call("/auth/delete", "DELETE", requestBody)
 }
